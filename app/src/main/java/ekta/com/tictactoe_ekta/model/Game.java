@@ -16,8 +16,8 @@ public class Game {
     public Player player1;
     public Player player2;
 
-    private Player winner = null;
-    private Player currentPlayer = player1;
+    public Player winner = null;
+    public Player currentPlayer = player1;
 
     public Cell[][] cells;
 
@@ -31,6 +31,20 @@ public class Game {
                 if (cell == null || cell.isEmpty())
                     return false;
         return true;
+    }
+
+    public boolean hasGameEnded() {
+        if (hasThreeSameHorizontalCells() || hasThreeSameVerticalCells() || hasThreeSameDiagonalCells()) {
+            winner = currentPlayer;
+            return true;
+        }
+
+        if (isBoardFull()) {
+            winner = null;
+            return true;
+        }
+
+        return false;
     }
 
     private boolean hasThreeSameHorizontalCells() {
