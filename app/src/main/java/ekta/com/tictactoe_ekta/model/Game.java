@@ -16,22 +16,16 @@ public class Game {
     public Player player1;
     public Player player2;
 
-    public Player winner = null;
     public Player currentPlayer = player1;
+    public Player winner = null;
 
     public Cell[][] cells;
+
 
     public Game() {
         cells = new Cell[BOARD_SIZE][BOARD_SIZE];
     }
 
-    public boolean isBoardFull() {
-        for (Cell[] row : cells)
-            for (Cell cell : row)
-                if (cell == null || cell.isEmpty())
-                    return false;
-        return true;
-    }
 
     public boolean hasGameEnded() {
         if (hasThreeSameHorizontalCells() || hasThreeSameVerticalCells() || hasThreeSameDiagonalCells()) {
@@ -47,29 +41,33 @@ public class Game {
         return false;
     }
 
-    private boolean hasThreeSameHorizontalCells() {
-        try {
 
+    public boolean hasThreeSameHorizontalCells() {
+        try {
             for (int i = 0; i < BOARD_SIZE; i++)
-                areEqual(cells[i][0], cells[i][1], cells[i][3]);
-            return true;
+                if (areEqual(cells[i][0], cells[i][1], cells[i][2]))
+                    return true;
+
+            return false;
         } catch (NullPointerException e) {
-            Log.i(TAG, e.getMessage());
+            Log.e(TAG, e.getMessage());
             return false;
         }
     }
 
-    private boolean hasThreeSameVerticalCells() {
-        try {
 
+    public boolean hasThreeSameVerticalCells() {
+        try {
             for (int i = 0; i < BOARD_SIZE; i++)
-                areEqual(cells[0][i], cells[1][i], cells[2][i]);
-            return true;
+                if (areEqual(cells[0][i], cells[1][i], cells[2][i]))
+                    return true;
+            return false;
         } catch (NullPointerException e) {
-            Log.i(TAG, e.getMessage());
+            Log.e(TAG, e.getMessage());
             return false;
         }
     }
+
 
     public boolean hasThreeSameDiagonalCells() {
         try {
@@ -81,6 +79,25 @@ public class Game {
         }
     }
 
+
+    public boolean isBoardFull() {
+        for (Cell[] row : cells)
+            for (Cell cell : row)
+                if (cell == null ||cell.isEmpty())
+                    return false;
+        return true;
+    }
+
+
+    /**
+     * 2 cells are equal if:
+     * - Both are none null
+     * - Both have non null values
+     * - both have equal values
+     *
+     * @param cells: Cells to check if are equal
+     * @return
+     */
     private boolean areEqual(Cell... cells) {
         if (cells == null || cells.length == 0)
             return false;
@@ -97,14 +114,16 @@ public class Game {
         return true;
     }
 
+
     public void switchPlayer() {
         currentPlayer = currentPlayer == player1 ? player2 : player1;
     }
 
-    public void reset(){
+
+    public void reset() {
         player1 = null;
         player2 = null;
-        winner = null;
         currentPlayer = null;
+        cells = null;
     }
 }

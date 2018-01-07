@@ -20,9 +20,45 @@ allprojects {
     repositories {
         jcenter()
         maven { url "https://maven.google.com" }
+        google()
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext {
+
+    // Versions
+    supportVersion            = '25.4.0'
+    supportAnnotationsVersion = '22.2.0'
+    junitVersion              = '4.12'
+    baristaVersion            = '1.7.0'
+
+
+    // Packages
+    supportPackage  = 'com.android.support'
+    junitPackage    = 'junit'
+    baristaPackage  = 'com.schibsted.spain'
+
+
+    // Dependencies
+    supportDependencies = [
+            appCompat   : buildDependency(supportPackage, 'appcompat-v7', supportVersion),
+            design      : buildDependency(supportPackage, 'design', supportVersion),
+            gridLayout  : buildDependency(supportPackage, 'gridlayout-v7', supportVersion),
+            annotations : buildDependency(supportPackage, 'support-annotations', supportAnnotationsVersion)
+    ]
+
+    testingDependencies = [
+            junit   : buildDependency(junitPackage, 'junit', junitVersion),
+            barista : buildDependency(baristaPackage, 'barista', baristaVersion)
+    ]
+}
+
+
+static String buildDependency(String pack, String dependency, String version) {
+    return "${pack}:${dependency}:${version}"
+}
+

@@ -18,10 +18,10 @@ public class GameViewModel extends Observable {
 
     private static final String TAG = GameViewModel.class.getSimpleName();
     private static final String NO_WINNER = "No one";
-    private ObservableArrayMap<String, String> cells = new ObservableArrayMap<>();
+    public ObservableArrayMap<String, String> cells = new ObservableArrayMap<>();
     public Game game;
 
-    private GameViewModel(String player1, String player2) {
+    public GameViewModel(String player1, String player2) {
         game = new Game();
         beginGame(new Player(player1, "x"), new Player(player2, "o"));
     }
@@ -32,7 +32,7 @@ public class GameViewModel extends Observable {
         game.currentPlayer = player1;
     }
 
-    public void onClickedClickedAt(int row, int column) {
+    public void onClickedCellAt(int row, int column) {
         game.cells[row][column] = new Cell(game.currentPlayer);
         cells.put(stringFromNumbers(row, column), game.currentPlayer.value);
         if (game.hasGameEnded())
